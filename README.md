@@ -1,3 +1,4 @@
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/rockneurotiko/valheim)](https://hub.docker.com/r/rockneurotiko/valheim/) [![Docker Stars](https://img.shields.io/docker/stars/rockneurotiko/valheim.svg)](https://hub.docker.com/r/rockneurotiko/valheim/) [![Docker Pulls](https://img.shields.io/docker/pulls/rockneurotiko/valheim.svg)](https://hub.docker.com/r/rockneurotiko/valheim/) [![](https://img.shields.io/docker/image-size/rockneurotiko/valheim)](https://img.shields.io/docker/image-size/rockneurotiko/valheim)
 # Valheim dedicated server
 
 ## Hosting a server
