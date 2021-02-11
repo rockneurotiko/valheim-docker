@@ -5,21 +5,21 @@
 Running the docker image:
 
 ``` bash
-docker run --rm -d --name=valheim-dedicated -p 2456:2456/udp -p 2457:2457/udp valheim:latest
+docker run --rm -d --name=valheim-dedicated -p 2456:2456/udp -p 2457:2457/udp rockneurotiko/valheim:latest
 ```
 
 Running with host interface:
 
 ``` bash
-docker run --rm -d --name=valheim-dedicated --net=host valheim:latest
+docker run --rm -d --name=valheim-dedicated --net=host rockneurotiko/valheim:latest
 ```
 
 Using a volume to store the data (Recommended for world persistance):
 
 ``` bash
-mkdir -p $(pwd)/valheim-docker
-sudo chmod 777 $(pwd)/valheim-docker
-docker run --rm -d -v $(pwd)/valheim-docker:/home/steam/valheim-server --name=valheim-dedicated --net=host valheim:latest
+mkdir -p $(pwd)/valheim-server
+sudo chmod 777 $(pwd)/valheim-server
+docker run --rm -d -v $(pwd)/valheim-server:/home/steam/valheim-server --name=valheim-dedicated --net=host rockneurotiko/valheim:latest
 ```
 
 There are a number of environment variables that you should use to configure your server:
