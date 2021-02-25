@@ -45,19 +45,33 @@ mkdir -p $(pwd)/valheim-server
 sudo chmod 777 $(pwd)/valheim-server
 ```
 
-Then I have a script that stop && start the docker, useful for start or restart the server.
+Then I have a script that stop && start the docker, useful for start or restart the server and for update.
 
 ``` bash
 #!/bin/sh
 
+# Configure the following directories
+valheim_dir="/home/rock/valheim-server"
+backup_dir="/home/rock/backups/$(date +%Y-%m-%d)"
+
+data_dir="${valheim_dir}/data"
+
 echo "---------------------------------------" >> server.logs
 echo "Restarting $(date)" >> server.logs
 
-echo "Stopping" >> server.logs
+echo "Stopping server" >> server.logs
 docker stop valheim-dedicated >> server.logs 2>&1
 
-echo "Starting" >> server.logs
-docker start valheim-dedicated >> server.logs 2>&1 || docker run -d --restart always -v /home/rock/valheim-server:/home/steam/valheim-server --name=valheim-dedicated -e SERVER_NAME="My Server Name" -e SERVER_PASSWORD="MyPassword" -e STEAM_ADMIN_ID="<id>" --net=host rockneurotiko/valheim:latest >> server.logs 2>&1
+echo "Backup data to $backup_dir" >> server.logs
+cp -r $data_dir $backup_dir >> server.logs 2>&1
+
+if [ $? -ne 0 ]; then
+  echo "Error doing the backup, not starting the server." >> server.logs
+  exit 1
+fi
+
+echo "Starting server" >> server.logs
+docker start valheim-dedicated >> server.logs 2>&1 || docker run -d --restart always -v $valheim_dir:/home/steam/valheim-server --name=valheim-dedicated -e SERVER_NAME="My Server Name" -e SERVER_PASSWORD="MyPassword" -e STEAM_ADMIN_ID="<id>" --net=host rockneurotiko/valheim:latest >> server.logs 2>&1
 
 echo "End" >> server.logs 
 ```
