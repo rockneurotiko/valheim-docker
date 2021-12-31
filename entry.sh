@@ -18,6 +18,16 @@ START_SCRIPT="start_server.sh"
 
 if [ "$VALHEIM_PLUS" = "true" ]; then
   START_SCRIPT="start_server_bepinex.sh"
+
+  if [ ! -f "${STEAMAPPDIR}/${START_SCRIPT}" ]; then
+     wget --max-redirect=30 "$VPURL" -O "$VPTAR"
+     tar xvf "$VPTAR" -C "$STEAMAPPDIR"
+     chmod +x "${STEAMAPPDIR}/${START_SCRIPT}"
+  fi
+
+  if [ ! -f "$VPCONFIGPATH" ]; then
+     wget --max-redirect=30 "$VPCONFIGURL" -O "$VPCONFIGPATH"
+  fi
 fi
 
 bash "${STEAMAPPDIR}/${START_SCRIPT}" -name "${SERVER_NAME}" -port "${SERVER_PORT}" -world "${SERVER_WORLD}" -password "${SERVER_PASSWORD}" -public "${SERVER_PUBLIC}" -savedir "${SERVER_DATA_DIR}"
