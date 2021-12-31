@@ -34,6 +34,18 @@ There are a number of environment variables that you should use to configure you
 
 To find your steam id use this webpage and copy the `steamID64 (Dec)` value: https://steamidfinder.com/
 
+## Valheim Plus
+
+This docker integrates [Valheim Plus](https://valheim.plus/) as an optional plugin.
+
+To enable it, you need to set the environment variable "VALHEIM_PLUS" to "true"
+
+For example:
+
+``` bash
+docker run -d --restart-always --name=valheim-dedicated -e VALHEIM_PLUS="true" --net=host rockneurotiko/valheim:latest
+```
+
 ## Example
 
 Just to show a real world example, this is how I manage my own servers.
@@ -62,8 +74,12 @@ echo "Restarting $(date)" >> server.logs
 echo "Stopping server" >> server.logs
 docker stop valheim-dedicated >> server.logs 2>&1
 
-echo "Backup data to $backup_dir" >> server.logs
-cp -r $data_dir $backup_dir >> server.logs 2>&1
+if [ -d "$data_dir" ]; then
+  echo "Backup data to $backup_dir" >> server.logs
+  cp -r "$data_dir" "$backup_dir" >> server.logs 2>&1
+else
+  echo "Backup skipped, data dir doesn't exists $data_dir" >> server.logs
+fi
 
 if [ $? -ne 0 ]; then
   echo "Error doing the backup, not starting the server." >> server.logs
@@ -73,7 +89,7 @@ fi
 echo "Starting server" >> server.logs
 docker start valheim-dedicated >> server.logs 2>&1 || docker run -d --restart always -v $valheim_dir:/home/steam/valheim-server --name=valheim-dedicated -e SERVER_NAME="My Server Name" -e SERVER_PASSWORD="MyPassword" -e STEAM_ADMIN_ID="<id>" --net=host rockneurotiko/valheim:latest >> server.logs 2>&1
 
-echo "End" >> server.logs 
+echo "End" >> server.logs
 ```
 
 Replace the path of the volume directory (`/home/rock/valheim-server`) for your own path, and change the environment values (server name, password, admin, ...)
