@@ -8,13 +8,11 @@ bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
      +quit
 
 # Replace
-sed -i -E 's/^\.\/valheim_server\.x86_64 .+$/\.\/valheim_server.x86_64 -name "${SERVER_NAME}" -port "${SERVER_PORT}" -world "${SERVER_WORLD}" -password "${SERVER_PASSWORD}" -public "${SERVER_PUBLIC}" -savedir "${SERVER_DATA_DIR}"/g' "${STEAMAPPDIR}/start_server.sh"
+# sed -i -E 's/^\.\/valheim_server\.x86_64 .+$/\.\/valheim_server.x86_64 -name "${SERVER_NAME}" -port "${SERVER_PORT}" -world "${SERVER_WORLD}" -password "${SERVER_PASSWORD}" -public "${SERVER_PUBLIC}" -savedir "${SERVER_DATA_DIR}"/g' "${STEAMAPPDIR}/start_server.sh"
 
 echo -e "${STEAM_ADMIN_ID}" > "${SERVER_DATA_DIR}/adminlist.txt"
 
 cd "${STEAMAPPDIR}"
-
-START_SCRIPT="start_server.sh"
 
 if [ "$VALHEIM_PLUS" = "true" ]; then
   START_SCRIPT="start_server_bepinex.sh"
@@ -28,6 +26,12 @@ if [ "$VALHEIM_PLUS" = "true" ]; then
   if [ ! -f "$VPCONFIGPATH" ]; then
      wget --max-redirect=30 "$VPCONFIGURL" -O "$VPCONFIGPATH"
   fi
+
+  bash "${STEAMAPPDIR}/${START_SCRIPT}" -name "${SERVER_NAME}" -port "${SERVER_PORT}" -world "${SERVER_WORLD}" -password "${SERVER_PASSWORD}" -public "${SERVER_PUBLIC}" -savedir "${SERVER_DATA_DIR}" &
+else
+  START_SCRIPT="valheim_server.x86_64"
+  
+  "${STEAMAPPDIR}/${START_SCRIPT}" -batchmode -nographics -crossplay -name "${SERVER_NAME}" -port "${SERVER_PORT}" -world "${SERVER_WORLD}" -password "${SERVER_PASSWORD}" -public "${SERVER_PUBLIC}" -savedir "${SERVER_DATA_DIR}" 
 fi
 
-bash "${STEAMAPPDIR}/${START_SCRIPT}" -crossplay -name "${SERVER_NAME}" -port "${SERVER_PORT}" -world "${SERVER_WORLD}" -password "${SERVER_PASSWORD}" -public "${SERVER_PUBLIC}" -savedir "${SERVER_DATA_DIR}"
+./valheim_server.x86_64 -batchmode -nographics -name "Tristes" -port "2456" -password "RockFlasher" -public "1" -savedir "/root/valheim-server/data"

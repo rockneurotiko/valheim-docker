@@ -25,6 +25,9 @@ RUN set -x \
                 ca-certificates \
                 lib32z1 \
                 file \
+                libpulse-dev \
+                libatomic1 \
+                libc6 \
         && mkdir -p "${STEAMAPPDIR}" \
         && { \
                 echo '@ShutdownOnFailedCommand 1'; \
