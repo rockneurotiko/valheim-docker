@@ -30,4 +30,4 @@ if [ "$VALHEIM_PLUS" = "true" ]; then
   fi
 fi
 
-bash "${STEAMAPPDIR}/${START_SCRIPT}" -name "${SERVER_NAME}" -port "${SERVER_PORT}" -world "${SERVER_WORLD}" -password "${SERVER_PASSWORD}" -public "${SERVER_PUBLIC}" -savedir "${SERVER_DATA_DIR}"
+bash "${STEAMAPPDIR}/${START_SCRIPT}" -crossplay -name "${SERVER_NAME}" -port "${SERVER_PORT}" -world "${SERVER_WORLD}" -password "${SERVER_PASSWORD}" -public "${SERVER_PUBLIC}" -savedir "${SERVER_DATA_DIR}"
