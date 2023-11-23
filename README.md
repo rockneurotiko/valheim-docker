@@ -31,19 +31,21 @@ There are a number of environment variables that you should use to configure you
 - SERVER_DATA_DIR: Directory to save the data, it defaults to a directory in the valheim-server.
 - SERVER_WORLD: The world name to create. Default "Dedicated".
 - SERVER_PORT: Server port, default 2456
+- SERVER_CROSSPLAY: Enable crossplay, default true
+- EXTRA_PARAMS: Pass extra params as provided to the valheim binary, default ""
 
 To find your steam id use this webpage and copy the `steamID64 (Dec)` value: https://steamidfinder.com/
 
 ## Valheim Plus
 
-This docker integrates [Valheim Plus](https://valheim.plus/) as an optional plugin.
+This docker has a tag `plus` that integrates [Valheim Plus](https://valheim.plus/).
 
-To enable it, you need to set the environment variable "VALHEIM_PLUS" to "true"
+With Valheim Plus there are no Crossplay, and the default world name is "DedicatedPlus"
 
 For example:
 
 ``` bash
-docker run -d --restart-always --name=valheim-dedicated -e VALHEIM_PLUS="true" --net=host rockneurotiko/valheim:latest
+docker run -d --restart-always --name=valheim-dedicated-plus --net=host rockneurotiko/valheim:plus
 ```
 
 ## Example
